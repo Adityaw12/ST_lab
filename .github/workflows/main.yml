@@ -1,0 +1,33 @@
+name: Python CI Workflow
+
+# ---------------------------
+# EVENTS: When to run
+# ---------------------------
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  run-python-scripts:   # JOB name
+    name: Run Python Files
+    runs-on: ubuntu-latest  # RUNNER
+
+    steps:
+      # ACTION: Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ACTION: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # STEP: Run all Python files in repo
+      - name: Execute Python scripts
+        run: |
+          echo "Running all Python files..."
+          for file in $(find . -name "*.py"); do
+            echo "---- Running $file ----"
+            python "$file"
+          done
